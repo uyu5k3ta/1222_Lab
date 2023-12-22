@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Roll the Dice</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 50%;
+			margin-top: 20px;
+		}
+
+		th, td {
+			border: 1px solid black;
+			padding: 8px;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+
+<form action="#">
+	<input id="rollButton" type="button" value="Roll Dice">
+</form>
+	<img id="die1" src="die1.png" alt="blank image">
+	<img id="die2" src="die2.png" alt="blank image">
+	<img id="die3" src="die3.png" alt="blank image">
+	<img id="die4" src="die4.png" alt="blank image">
+	<img id="die5" src="die5.png" alt="blank image">
+	<img id="die6" src="die6.png" alt="blank image">
+	<img id="die7" src="die1.png" alt="blank image">
+	<img id="die8" src="die2.png" alt="blank image">
+	<img id="die9" src="die3.png" alt="blank image">
+	<img id="die10" src="die4.png" alt="blank image">
+	<img id="die11" src="die5.png" alt="blank image">
+	<img id="die12" src="die6.png" alt="blank image">
+
+<table id="probabilityTable">
+	<thead>
+		<tr>
+			<th>Face</th>
+			<th>Percent</th>
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+
+<script>
+	var die1Image, die2Image, die3Image, die4Image, die5Image, die6Image, die7Image, die8Image, die9Image, die10Image, die11Image, die12Image;
+	var count;
+	var count = [0, 0, 0, 0, 0, 0];
+	function start() {
+		var button = document.getElementById("rollButton");
+		button.addEventListener("click", rollDice);
+
+		die1Image = document.getElementById("die1");
+		die2Image = document.getElementById("die2");
+		die3Image = document.getElementById("die3");
+		die4Image = document.getElementById("die4");
+		die5Image = document.getElementById("die5");
+		die6Image = document.getElementById("die6");
+		die7Image = document.getElementById("die7");
+		die8Image = document.getElementById("die8");
+		die9Image = document.getElementById("die9");
+		die10Image = document.getElementById("die10");
+		die11Image = document.getElementById("die11");
+		die12Image = document.getElementById("die12");
+	}
+
+	function rollDice() {
+		count = [0, 0, 0, 0, 0, 0];
+		setImage(die1Image);
+		setImage(die2Image);
+		setImage(die3Image);
+		setImage(die4Image);
+		setImage(die5Image);
+		setImage(die6Image);
+		setImage(die7Image);
+		setImage(die8Image);
+		setImage(die9Image);
+		setImage(die10Image);
+		setImage(die11Image);
+		setImage(die12Image);
+
+		// 建立圖片加載的 Promise 並等待所有圖片加載完成
+		Promise.all([
+			loadImage(die1Image),
+			loadImage(die2Image),
+			loadImage(die3Image),
+			loadImage(die4Image),
+			loadImage(die5Image),
+			loadImage(die6Image),
+			loadImage(die7Image),
+			loadImage(die8Image),
+			loadImage(die9Image),
+			loadImage(die10Image),
+			loadImage(die11Image),
+			loadImage(die12Image)
+		]).then(() => {
+			displayProbabilityTable(count);
+		});
+	}
+
+	function setImage(dieImg) {
+		var dieValue = Math.floor(1 + Math.random() * 6);
+		dieImg.setAttribute("src", "die" + dieValue + ".png");
+		dieImg.setAttribute("alt", "die image with " + dieValue + " spot(s)");
+		count[dieValue - 1]++; 
+	}
+
+	function loadImage(img) {
+		return new Promise((resolve, reject) => {
+			img.onload = resolve;
+			img.onerror = reject;
+		});
+	}
+
+	function displayProbabilityTable() {
+	    var probabilityTable = document.getElementById("probabilityTable").getElementsByTagName('tbody')[0];
+	    probabilityTable.innerHTML = "";
+
+	    // 計算並填入表格中
+	    for (var i = 0; i < count.length; i++) {
+	        var row = probabilityTable.insertRow();
+	        var cell1 = row.insertCell(0);
+	        var cell2 = row.insertCell(1);
+
+	        cell1.innerHTML = (i + 1);
+	        cell2.innerHTML = (count[i] / 12 * 100).toFixed(2) ;
+	    }
+	}
+
+
+	window.addEventListener("load", start);
+</script>
+
+</body>
+</html>
+
+
