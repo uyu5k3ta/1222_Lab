@@ -82,7 +82,6 @@
 		setImage(die11Image);
 		setImage(die12Image);
 
-		// 建立圖片加載的 Promise 並等待所有圖片加載完成
 		Promise.all([
 			loadImage(die1Image),
 			loadImage(die2Image),
@@ -118,8 +117,6 @@
 	function displayProbabilityTable() {
 	    var probabilityTable = document.getElementById("probabilityTable").getElementsByTagName('tbody')[0];
 	    probabilityTable.innerHTML = "";
-
-	    // 計算並填入表格中
 	    for (var i = 0; i < count.length; i++) {
 	        var row = probabilityTable.insertRow();
 	        var cell1 = row.insertCell(0);
